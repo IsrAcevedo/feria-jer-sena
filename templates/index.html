@@ -75,6 +75,7 @@
     <section class="participantes">
         <h2>Desarrolladores</h2>
         <div class="cards">
+            {%if desarrolladores%}
             {%for desarrollador in desarrolladores%}
             <div class="card-participante">
                 <img src="{{url_for('static', filename = 'uploads/' + desarrollador['foto']) }}"
@@ -86,6 +87,8 @@
             </div>
 
             {%endfor%}
+
+            {%endif%}
 
         </div>
     </section>
