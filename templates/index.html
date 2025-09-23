@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feria Emprendimiento 2025</title>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+    {% if session['documento']%}
+    <div class="logueado">
+        <nav>
+            <a href="{{url_for('crear_emprendimiento')}}">crear emprendimiento</a>
+            <a href="{{url_for('crear_emprendedor')}}">registrar emprendedor</a>
+        </nav>
+        <div>
+            <p> usuario : <span> {{session['user']}}</span> </p>
+            <a href="{{ url_for('logout') }}" class="boton">Cerrar sesión</a>
+        </div>
+
+    </div>
+    {%endif%}
+    <section class="fondo_hero">
+
+        <div class="hero">
+
+            <div class="text-container">
+                <h1 class="animate__animated animate__fadeInDown">Feria Emprendimiento 2025</h1>
+                <h2 class="animate__animated animate__fadeInDown animate__delay-1s">Colegio Tecnico Comercial Jose
+                    Eustasio Rivera</h2>
+                <a href="#emprendimientos"
+                    class="btn_emprendimientos animate__animated animate__zoomIn animate__delay-2s">Ver
+                    Emprendimientos</a>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="emprendimientos" class="emprendimientos">
+        <h2>Proyectos Prouductivos tecnicos del sena</h2>
+        {%if emprendimientos %}
+        {%for tecnico, emprendimientos in emprendimientos.items()%}
+        <div class="tecnico">
+            <h3>tecnico en {{tecnico}}</h3>
+            <ul class="cards">
+                {%for emprendimiento in emprendimientos%}
+                <li>
+                    <a href="{{url_for('emprendimiento',  cod=emprendimiento.id)}}">
+                        <div class="card">
+                            <img src="{{url_for('static', filename = 'uploads/' + emprendimiento.logo) }}"
+                                alt=" logo del emprendimiento">
+                            <div class="card_capa">
+                                <p>{{ emprendimiento.nombre}} </p>
+
+                            </div>
+
+                        </div>
+                    </a>
+
+                </li>
+                {%endfor%}
+            </ul>
+
+        </div>
+        {%endfor%}
+
+        {%endif%}
+    </section>
+
+    <section class="participantes">
+        <h2>Desarrolladores</h2>
+        <div class="cards">
+            {%for desarrollador in desarrolladores%}
+            <div class="card-participante">
+                <img src="{{url_for('static', filename = 'uploads/' + desarrollador['foto']) }}"
+                    alt="foto desarrollador">
+                <div class="card_nombre">
+                    <p>{{desarrollador['nombre']}} {{desarrollador['apellido']}}</p>
+
+                </div>
+            </div>
+
+            {%endfor%}
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Todos los derechos reservados Tecnico Programacion de software JER<br>
+            Instructor Israel Acevedo <br>&copy; 2025 </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

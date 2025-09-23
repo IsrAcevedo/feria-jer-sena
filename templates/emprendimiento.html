@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{emprendimientos[0].nombre}}</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    {% if session['documento']%}
+    <div class="logueado">
+        <nav>
+            <a href="">crear emprendimiento</a>
+            <a href="">registrar emprendedor</a>
+        </nav>
+        <div>
+            <p> usuario : <span> {{session['user']}}</span> </p>
+            <a href="{{ url_for('logout') }}" class="boton">Cerrar sesión</a>
+        </div>
+
+    </div>
+    {%endif%}
+
+    <header class="header">
+
+        <div>
+            <h1 class="header__titulo">{{emprendimientos[0].nombre}}</h1>
+            <p class="header__eslogan">{{emprendimientos[0].slogan}}</p>
+        </div>
+        <div class="header_producto">
+            <img src="{{url_for('static', filename = 'uploads/' + emprendimientos[0].foto_producto)}}"
+                alt="foto de producto">
+        </div>
+        <div>
+            <a href="#carrito" class="header__boton">¡Compra ahora!</a>
+
+        </div>
+
+
+
+    </header>
+
+
+    <section class="informacion">
+        <h2 class="informacion__titulo">Más sobre nuestro producto</h2>
+        <p class="informacion__descripcion">{{emprendimientos[0].descripcion}}</p>
+
+        <div class="informacion__detalles">
+            <div class="informacion__detalle">
+                <h3 class="informacion__detalle-titulo">Misión</h3>
+                <p class="informacion__detalle-texto">{{emprendimientos[0].mision}}</p>
+            </div>
+            <div class="informacion__detalle">
+                <h3 class="informacion__detalle-titulo">Visión</h3>
+                <p class="informacion__detalle-texto">{{emprendimientos[0].vision}}</p>
+            </div>
+            <div class="informacion__detalle">
+                <h3 class="informacion__detalle-titulo">Objetivos</h3>
+                <p class="informacion__detalle-texto">{{emprendimientos[0].objetivos}}</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="participantes">
+        <h2 class="participantes__titulo">Emprendedores</h2>
+
+        <div class="participantes__lista">
+            {%for emprendedor in emprendedores %}
+            <div class="participantes__tarjeta">
+                <div class="participante_tarjeta-img">
+                    <img src="{{url_for('static', filename = 'uploads/' + emprendedor['foto'])}}" alt=" foto perfil"
+                        class="participantes__imagen">
+                </div>
+                <div class="participante_tarjeta-datos">
+                    <p class="participantes__nombre">{{emprendedor.nombre}}</p>
+                    <p class="participantes__rol">{{emprendedor.cargo}}</p>
+                </div>
+
+            </div>
+            {%endfor%}
+        </div>
+
+    </section>
+
+    <div class="fondo__carrito">
+        <section id="carrito" class="carrito">
+            <div>
+                <h2 class="carrito__titulo">¡Gracias por apoyar nuestros sueños!</h2>
+                <p class="carrito__mensaje">
+                    Tu compra no solo lleva un producto a casa, también impulsa el esfuerzo, la creatividad y los sueños
+                    de
+                    jóvenes emprendedores.
+                    ¡Cada pedido cuenta y nos motiva a seguir creciendo!
+                </p>
+            </div>
+            <div>
+                <form id="formularioCarrito" class="carrito__formulario">
+                    <label for="cantidad" class="carrito__label">Cantidad:</label>
+                    <input type="number" id="cantidad" name="cantidad" class="carrito__input" min="1" required>
+                    <button type="submit" class="carrito__boton">Enviar Pedido</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+
+
+    <footer class="footer">
+        <p class="footer__texto">Todos los derechos reservados - {{emprendimientos[0].nombre}} &copy; 2025</p>
+        <p class="footer__texto">Diseñado por Tec Programacion de software JER</p>
+        <p class="footer__texto">Instructor Israel Acevedo</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

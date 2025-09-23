@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creando_emprendimiento</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+    {% if session['documento']%}
+    <div class="logueado">
+        <nav>
+            <a href="{{url_for('crear_emprendimiento')}}">crear emprendimiento</a>
+            <a href="{{url_for('crear_emprendedor')}}">registrar emprendedor</a>
+        </nav>
+        <div>
+            <p> usuario : <span> {{session['user']}}</span> </p>
+            <a href="{{ url_for('logout') }}" class="boton">Cerrar sesión</a>
+        </div>
+
+    </div>
+    {%endif%}
+
+    <div class="body">
+        <form class="form_emprendedor" action="{{ url_for('crear_emprendimiento') }}" method="post"
+            enctype="multipart/form-data">
+            <h2>Registrar Emprendimiento</h2>
+            <div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                    <li class="flash {{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+            </div>
+            <label for="nombre">Nombre del Emprendimiento</label>
+            <input type="text" name="nombre" required>
+
+            <label for="slogan">Slogan</label>
+            <input type="text" name="slogan" required>
+
+            <label for="descripcion">Descripcion</label>
+            <textarea name="descripcion" rows="5" maxlength="600"></textarea>
+
+            <label for="mision">Misión</label>
+            <textarea name="mision" rows="5" maxlength="600"></textarea>
+
+            <label for="vision">Vision</label>
+            <textarea name="vision" rows="5"></textarea>
+
+            <label for="onjetivos">Objetivos</label>
+            <textarea name="objetivos" rows="5" maxlength="600"></textarea>
+
+
+            <label for="logo">Logo (solo .webp)</label>
+            <input type="file" name="logo" accept=".webp" required>
+            <label for="logo">producto (solo .webp)</label>
+            <input type="file" name="producto" accept=".webp" required>
+
+            <label for="contacto">Contacto</label>
+            <input type="text" name="contacto" required>
+            <label for="contacto">Tecnico</label>
+            <select name="tecnico" id="">
+                <option value="">Seleccione programa de formacion</option>
+                {%for tecnico in tecnicos%}
+                <option value="{{tecnico.idtecnico}}">{{tecnico.tecnico}}</option>
+                {%endfor%}
+            </select>
+
+
+            <button type="submit">Registrar</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
