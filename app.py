@@ -192,4 +192,3 @@ def logout():
     session.pop('documento', None)  
     flash('Has cerrado sesión exitosamente.', 'success')
     return redirect(url_for('index')) 
-app.run(debug=True, port=7000)
