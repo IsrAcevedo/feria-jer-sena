@@ -13,8 +13,8 @@
     {% if session['documento']%}
     <div class="logueado">
         <nav>
-            <a href="">crear emprendimiento</a>
-            <a href="">registrar emprendedor</a>
+            <a href="{{url_for('crear_emprendimiento')}}">crear emprendimiento</a>
+            <a href="{{url_for('crear_emprendedor')}}">registrar emprendedor</a>
         </nav>
         <div>
             <p> usuario : <span> {{session['user']}}</span> </p>

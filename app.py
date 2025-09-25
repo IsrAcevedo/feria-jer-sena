@@ -28,7 +28,7 @@ def nombre_imagen(filename):
 
 @app.route('/')
 def index():
-    query = "SELECT nombre, apellido, foto FROM desarrolladores"
+    query = "SELECT nombre, apellido, foto, rol FROM desarrolladores"
     query2 ="SELECT e.id_emprendimiento AS id, e.nombre, e.logo, t.tecnico FROM emprendimientos e INNER JOIN tecnico t ON t.idtecnico = e.id_tecnico"
     desarrolladores = consulta(query)
     emprendimientos= consulta(query2)

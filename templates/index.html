@@ -77,6 +77,7 @@
         <div class="cards">
             {%if desarrolladores%}
             {%for desarrollador in desarrolladores%}
+            {%if desarrollador['rol'] == 'dev'%}
             <div class="card-participante">
                 <img src="{{url_for('static', filename = 'uploads/' + desarrollador['foto']) }}"
                     alt="foto desarrollador">
@@ -85,6 +86,7 @@
 
                 </div>
             </div>
+            {%endif%}
 
             {%endfor%}
 
