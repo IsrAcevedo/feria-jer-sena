@@ -29,13 +29,14 @@ def nombre_imagen(filename):
 @app.route('/')
 def index():
     query = "SELECT nombre, apellido, foto, rol FROM desarrolladores"
-    query2 ="SELECT e.id_emprendimiento AS id, e.nombre, e.logo, t.tecnico FROM emprendimientos e INNER JOIN tecnico t ON t.idtecnico = e.id_tecnico"
+    query2 ="SELECT e.id_emprendimiento AS id, e.nombre, e.logo, t.tecnico,  i.nombre as instructor FROM emprendimientos e INNER JOIN tecnico t ON t.idtecnico = e.id_tecnico INNER JOIN instructor i ON i.id_instructor = t.id_instructor; "
     desarrolladores = consulta(query)
     emprendimientos= consulta(query2)
     emprendimientos_por_tecnico=defaultdict(list)
     for emprendimiento in emprendimientos:
         tecnico=emprendimiento['tecnico']
         emprendimientos_por_tecnico[tecnico].append(emprendimiento)
+        print(emprendimientos_por_tecnico)
     return render_template('index.html', desarrolladores=desarrolladores, emprendimientos=emprendimientos_por_tecnico)
 
 @app.route('/emprendimiento/<int:cod>')
