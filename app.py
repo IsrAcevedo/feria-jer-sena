@@ -3,7 +3,7 @@ from consultas import consulta, insertar
 import os
 import uuid
 from werkzeug.utils import secure_filename
-from werkzeug.security import check_password_hash,generate_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from collections import defaultdict
 from decoradores import login_requerido
 from dotenv import load_dotenv
@@ -57,7 +57,7 @@ def registro():
         apellidos = request.form.get('apellidos')
         celular = request.form.get('celular')
         password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
+        confirm_password =  request.form.get('confirm_password')
         foto = request.files.get('foto')
         if doc in aprendices:
             if password != confirm_password:
@@ -75,7 +75,8 @@ def registro():
                 return redirect(request.url)
 
             query = "INSERT INTO desarrolladores (documento, nombre, apellido, password, celular, foto) VALUES (%s,%s,%s,%s,%s,%s)"
-            parametros = (doc, nombres, apellidos, password, celular, nuevo_nombre)
+            password_hash=generate_password_hash(password)
+            parametros = (doc, nombres, apellidos, password_hash, celular, nuevo_nombre)
             insertar(query,parametros)
 
             flash('Registro exitoso', 'success')
@@ -192,3 +193,4 @@ def logout():
     session.pop('documento', None)  
     flash('Has cerrado sesión exitosamente.', 'success')
     return redirect(url_for('index')) 
+

@@ -28,7 +28,7 @@
 
         <div>
             <h1 class="header__titulo">{{emprendimientos[0].nombre}}</h1>
-            <p class="header__eslogan">{{emprendimientos[0].slogan}}</p>
+            <p class="header__eslogan">{{emprendimientos[0].slogan.capitalize()}}</p>
         </div>
         <div class="header_producto">
             <img src="{{url_for('static', filename = 'uploads/' + emprendimientos[0].foto_producto)}}"
