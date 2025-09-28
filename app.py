@@ -36,7 +36,6 @@ def index():
     for emprendimiento in emprendimientos:
         tecnico=emprendimiento['tecnico']
         emprendimientos_por_tecnico[tecnico].append(emprendimiento)
-        print(emprendimientos_por_tecnico)
     return render_template('index.html', desarrolladores=desarrolladores, emprendimientos=emprendimientos_por_tecnico)
 
 @app.route('/emprendimiento/<int:cod>')
