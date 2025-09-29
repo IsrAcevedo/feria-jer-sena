@@ -39,6 +39,7 @@
             <h1 class="header__titulo">{{emprendimientos[0].nombre}}</h1>
             <p class="header__eslogan">{{emprendimientos[0].slogan.capitalize()}}</p>
         </div>
+        {% if session['documento']%}
         <div class="icono_editar">
             <a href="{{url_for('actualizar_foto_producto',id=emprendimientos[0].id_emprendimiento)}}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
@@ -50,6 +51,7 @@
                 </svg>
             </a>
         </div>
+        {%endif%}
         <div class="header_producto">
             <img src="{{url_for('static', filename = 'uploads/' + emprendimientos[0].foto_producto)}}"
                 alt="foto de producto">
@@ -91,6 +93,7 @@
         <div class="participantes__lista">
             {%for emprendedor in emprendedores %}
             <div class="participantes__tarjeta">
+                {% if session['documento']%}
                 <div class="icon_editar">
                     <a href="{{url_for('actualizar_foto_emprendedor',id=emprendedor.id)}}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -100,7 +103,7 @@
                         </svg>
                     </a>
                 </div>
-
+                {%endif%}
                 <div class="participante_tarjeta-img">
                     <img src="{{url_for('static', filename = 'uploads/' + emprendedor['foto'])}}" alt=" foto perfil"
                         class="participantes__imagen">
