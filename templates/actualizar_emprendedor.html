@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizando_emprendimiento</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+    {% if session['documento']%}
+    <div class="logueado">
+
+        <div>
+            <p> usuario : <span> {{session['user']}}</span> </p>
+            <a href="{{ url_for('logout') }}" class="boton">Cerrar sesión</a>
+        </div>
+
+    </div>
+    {%endif%}
+
+    <div class="body">
+        <form class="form_emprendedor" method="POST" enctype="multipart/form-data">
+            <h2>Actualizar Emprendedor</h2>
+            <div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                    <li class="flash {{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+            </div>
+
+            <label for="logo">foto emprendedor (solo .webp) </label>
+            <input type="file" name="foto" accept=".webp" required>
+
+            <button type="submit">Actualizar</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

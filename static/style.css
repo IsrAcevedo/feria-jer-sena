@@ -426,6 +426,8 @@ footer {
     width: 100%;
     height: 70%;
     margin: 0 auto;
+    position: relative;
+    display: inline-block;
 }
 
 .header_producto img {
@@ -525,6 +527,31 @@ footer {
     margin-bottom: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.icono_editar {
+    position: absolute;
+    top: 250px;
+    /* Ajusta según preferencia */
+    right: 10px;
+    /* Ajusta según preferencia */
+
+    /* Opcional: fondo blanco semitransparente */
+    padding: 5px;
+    border-radius: 50%;
+    z-index: 10;
+    /* Asegura que esté por encima de la imagen */
+}
+
+.participantes__tarjeta .icon_editar {
+    display: flex;
+    justify-content: end;
+    margin-bottom: -20px;
+}
+
+.participantes__tarjeta a {
+    color: #000;
+
 }
 
 .participante_tarjeta-img {

@@ -41,7 +41,7 @@ def index():
 @app.route('/emprendimiento/<int:cod>')
 def emprendimiento(cod):
     query ="SELECT * FROM emprendimientos WHERE id_emprendimiento=%s"
-    query2 ="SELECT CONCAT(nombre, ' ', apellido ) AS nombre, cargo, foto FROM emprendedores WHERE emprendimiento = %s"
+    query2 ="SELECT idemprendedor AS id, CONCAT(nombre, ' ', apellido ) AS nombre, cargo, foto FROM emprendedores WHERE emprendimiento = %s"
     parametros=cod,
     emprendimientos= consulta(query,parametros)
     emprendedores= consulta(query2,parametros)
@@ -122,7 +122,6 @@ def crear_emprendimiento():
     query="SELECT * FROM tecnico"
     tecnicos=consulta(query)
     if request.method == 'POST':
-    
         nombre = request.form.get('nombre')
         slogan = request.form.get('slogan')
         contacto = request.form.get('contacto')
@@ -132,7 +131,6 @@ def crear_emprendimiento():
         objetivo= request.form.get('objetivos')
         foto = request.files.get('logo')
         producto = request.files.get('producto')
-        
         tecnico = request.form.get('tecnico')
 
 
@@ -161,6 +159,72 @@ def crear_emprendimiento():
 
     return render_template('crear_emprendimiento.html', tecnicos=tecnicos)
 
+
+@app.route('/actualizar_emprendimiento/<int:id>', methods=['GET','POST'])# creo otra ruta
+def actualizar_emprendimiento(id):
+    if request.method == 'POST':
+        nombre = request.form.get('nombre')
+        contacto = request.form.get('contacto')
+        query = 'UPDATE emprendimientos SET nombre = %s, contacto = %s WHERE id_emprendimiento = %s' #consulta para actualizar datos
+        parametros = (nombre, contacto, id)
+        insertar(query, parametros)
+        return redirect(url_for('emprendimiento',cod=id))
+    query = 'SELECT nombre, slogan, contacto FROM emprendimientos WHERE id_emprendimiento = %s'#consulto la bd
+    parametros=(id,)# coloco condicion cual es tecnico que voy actualizar
+    emprendimiento = consulta(query,parametros) #ejecuto y almaceno la consulta
+    return render_template('actualizar_emprendimiento.html', emprendimiento= emprendimiento)# muestro el formulario en html con los datos consultados
+@app.route('/actualizar_foto_producto/<int:id>', methods=['GET','POST'])
+def actualizar_foto_producto(id):
+    if request.method == 'POST':
+        foto = request.files.get('producto')
+        if foto and nombre_imagen(foto.filename):
+            filename = secure_filename(foto.filename)
+            extension = filename.rsplit('.', 1)[1].lower()
+            nuevo_nombre = f"{uuid.uuid4().hex}.{extension}"
+            ruta_foto = os.path.join(app.config['UPLOAD_FOLDER'], nuevo_nombre)
+            foto.save(ruta_foto)
+            query = 'SELECT foto_producto AS foto FROM emprendimientos WHERE id_emprendimiento = %s'
+            parametros=(id,)
+            emprendimiento = consulta(query,parametros) 
+            foto_act=emprendimiento[0]['foto']
+            foto_original =  os.path.join(app.config['UPLOAD_FOLDER'],foto_act )
+            query = 'UPDATE emprendimientos SET foto_producto = %s WHERE id_emprendimiento = %s' 
+            parametros=(nuevo_nombre,id)
+            insertar(query, parametros)
+            if os.path.exists(foto_original):
+                os.remove(foto_original)
+            return redirect(url_for('emprendimiento',cod=id))
+        else:
+            flash('Formato de imagen no permitido. Solo .webp', 'error')
+            return redirect(request.url)
+    return render_template('actualizar_emprendimiento.html', foto= True)# muestro el formulario en html con los datos consultados
+
+@app.route('/actualizar_foto_emprendedor/<int:id>', methods=['GET','POST'])
+def actualizar_foto_emprendedor(id):
+    if request.method == 'POST':
+        foto = request.files.get('foto')
+        if foto and nombre_imagen(foto.filename):
+            filename = secure_filename(foto.filename)
+            extension = filename.rsplit('.', 1)[1].lower()
+            nuevo_nombre = f"{uuid.uuid4().hex}.{extension}"
+            ruta_foto = os.path.join(app.config['UPLOAD_FOLDER'], nuevo_nombre)
+            foto.save(ruta_foto)
+            query = 'SELECT foto, emprendimiento FROM emprendedores WHERE idemprendedor = %s'
+            parametros=(id,)
+            emprendimiento = consulta(query,parametros)
+            cod=emprendimiento[0]['emprendimiento'] 
+            foto_act=emprendimiento[0]['foto']
+            foto_original =  os.path.join(app.config['UPLOAD_FOLDER'],foto_act )
+            query = 'UPDATE emprendedores SET foto = %s WHERE idemprendedor = %s' 
+            parametros=(nuevo_nombre,id)
+            insertar(query, parametros)
+            if os.path.exists(foto_original):
+                os.remove(foto_original)
+            return redirect(url_for('emprendimiento',cod=cod))
+        else:
+            flash('Formato de imagen no permitido. Solo .webp', 'error')
+            return redirect(request.url)
+    return render_template('actualizar_emprendedor.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
