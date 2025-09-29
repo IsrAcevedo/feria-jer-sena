@@ -161,6 +161,7 @@ def crear_emprendimiento():
 
 
 @app.route('/actualizar_emprendimiento/<int:id>', methods=['GET','POST'])# creo otra ruta
+@login_requerido
 def actualizar_emprendimiento(id):
     if request.method == 'POST':
         nombre = request.form.get('nombre')
@@ -174,6 +175,7 @@ def actualizar_emprendimiento(id):
     emprendimiento = consulta(query,parametros) #ejecuto y almaceno la consulta
     return render_template('actualizar_emprendimiento.html', emprendimiento= emprendimiento)# muestro el formulario en html con los datos consultados
 @app.route('/actualizar_foto_producto/<int:id>', methods=['GET','POST'])
+@login_requerido
 def actualizar_foto_producto(id):
     if request.method == 'POST':
         foto = request.files.get('producto')
@@ -200,6 +202,7 @@ def actualizar_foto_producto(id):
     return render_template('actualizar_emprendimiento.html', foto= True)# muestro el formulario en html con los datos consultados
 
 @app.route('/actualizar_foto_emprendedor/<int:id>', methods=['GET','POST'])
+@login_requerido
 def actualizar_foto_emprendedor(id):
     if request.method == 'POST':
         foto = request.files.get('foto')
